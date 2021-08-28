@@ -1,6 +1,6 @@
 # Ethgate
 
-Ethgate is a library for making batched calls to Ethereum compatible calls.
+Ethgate is a library for making batched calls to Ethereum compatible chains.
 
 This library is very experimental. Even documented features might not work.
 
