@@ -45,6 +45,10 @@ export type EthgateChainContractLike = {
   readonly interface: EthersInterace;
 };
 
+export type EthgateChainCallOptions = {
+  readonly noBatch?: boolean;
+};
+
 export class EthgateChain {
   static async fromProvider(provider: Provider) {
     const network = await provider.getNetwork();
@@ -52,24 +56,28 @@ export class EthgateChain {
     return chain;
   }
 
-  makerMulticallDataLoader: MakerMulticallDataLoader;
+  makerMulticallDataLoader?: MakerMulticallDataLoader;
 
   constructor(public provider: Provider, public chainId: number) {
-    this.makerMulticallDataLoader = new MakerMulticallDataLoader(
-      makerMulticallContractAddresses[chainId],
-      this.provider,
-    );
+    if (makerMulticallContractAddresses[chainId]) {
+      this.makerMulticallDataLoader = new MakerMulticallDataLoader(
+        this.provider,
+        makerMulticallContractAddresses[chainId],
+      );
+    }
   }
 
-  async rawCall(call: EthgateChainCallLike): Promise<any> {
-    const callResult = this.provider.call(
-      {
-        to: call.address,
-        data: call.data,
-      },
-      call.block,
-    );
-    return callResult;
+  async rawCall(call: EthgateChainCallLike, options: EthgateChainCallOptions = {}): Promise<any> {
+    if (!this.makerMulticallDataLoader || options.noBatch) {
+      return this.provider.call(
+        {
+          to: call.address,
+          data: call.data,
+        },
+        call.block,
+      );
+    }
+    return this.makerMulticallDataLoader.load(call);
   }
 
   async call(
@@ -82,13 +90,14 @@ export class EthgateChain {
 
     const data = contract.interface.encodeFunctionData(functionFragment, params);
     const call = new EthgateChainCall(contract.address, data, block);
-    const encodedResult = await this.makerMulticallDataLoader.load(call);
+    const encodedResult = await this.rawCall(call);
 
     const result = contract.interface.decodeFunctionResult(functionFragment, encodedResult);
+
     return functionFragment.outputs!.length === 1 ? result[0] : result;
   }
 
-  async callMany(calls: Parameters<EthgateChain['call']>[]) {
-    return await Promise.all(calls.map((call) => this.call(...call)));
+  async callMany(calls: readonly Parameters<EthgateChain['call']>[]): Promise<readonly any[]> {
+    return Promise.all(calls.map((call) => this.call(...call)));
   }
 }
