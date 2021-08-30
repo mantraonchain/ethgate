@@ -1,6 +1,6 @@
 import type { Interface as EthersInterace } from '@ethersproject/abi';
 import type { Provider as EthersProvider } from '@ethersproject/providers';
-import invariant from 'invariant';
+// import invariant from 'invariant';
 
 import type { EthgateChain, EthgateChainBlockIdentifier } from './EthgateChain';
 export * from './EthgateChain';
@@ -68,7 +68,7 @@ export class Ethgate<TChainId extends number = number> {
 
   async rawCall(call: EthgateCall<TChainId>): Promise<any> {
     const chain = this.getChain(call.chainId);
-    invariant(chain, `Chain with ID "${call.chainId}" was not found`);
+    // invariant(chain, `Chain with ID "${call.chainId}" was not found`);
     return chain.rawCall(call);
   }
 

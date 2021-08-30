@@ -1,16 +1,22 @@
 {
-  "name": "@ethgate/ethgate",
-  "version": "0.3.0",
+  "name": "ethgate",
+  "version": "0.4.0",
   "main": "dist/index.js",
   "repository": "git@github.com:cardpunks/ethgate.git",
   "author": "Alican Çubukçuoğlu <alicancubukcuoglu@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@ethersproject/abi": "^5.4.1",
-    "dataloader": "^2.0.0"
+    "dataloader": "^2.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.4.5",
+    "@types/invariant": "^2.2.35",
+    "@types/lodash": "^4.14.172",
     "invariant": "^2.2.4",
     "npm-run-all": "^4.1.5",
     "ts-node": "^10.2.1",
