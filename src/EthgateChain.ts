@@ -49,16 +49,20 @@ export type EthgateChainCallOptions = {
   readonly noBatch?: boolean;
 };
 
-export class EthgateChain {
-  static async fromProvider(provider: Provider) {
+export class EthgateChain<TChainId extends number = number> {
+  static async fromEthersProvider(provider: Provider) {
     const network = await provider.getNetwork();
     const chain = new EthgateChain(provider, network.chainId);
     return chain;
   }
 
-  makerMulticallDataLoader?: MakerMulticallDataLoader;
+  readonly provider: Provider;
+  readonly chainId: TChainId;
+  readonly makerMulticallDataLoader?: MakerMulticallDataLoader;
 
-  constructor(public provider: Provider, public chainId: number) {
+  constructor(provider: Provider, chainId: TChainId) {
+    this.provider = provider;
+    this.chainId = chainId;
     if (makerMulticallContractAddresses[chainId]) {
       this.makerMulticallDataLoader = new MakerMulticallDataLoader(
         this.provider,

@@ -1,6 +1,6 @@
 {
   "name": "@ethgate/ethgate",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "repository": "git@github.com:cardpunks/ethgate.git",
   "author": "Alican Çubukçuoğlu <alicancubukcuoglu@gmail.com>",

@@ -51,14 +51,18 @@ export class EthgateCall<TChainId extends number = number> {
 // type  EthgateCallOptions = {}
 
 export class Ethgate<TChainId extends number = number> {
-  readonly chains: Record<TChainId, EthgateChain>;
+  readonly chains: Record<TChainId, EthgateChain<TChainId>>;
 
-  constructor(chains: Record<TChainId, EthgateChain>) {
+  constructor(chains: Record<TChainId, EthgateChain<TChainId>>) {
     this.chains = chains;
   }
 
-  getChain(chainId: TChainId): EthgateChain {
-    const chain = this.chains[chainId];
+  isSupportedChainId(chainId: number): chainId is TChainId {
+    return chainId in this.chains;
+  }
+
+  getChain<TId extends TChainId>(chainId: TId): EthgateChain<TId> {
+    const chain = this.chains[chainId] as EthgateChain<TId>;
     return chain;
   }
 
