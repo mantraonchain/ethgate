@@ -2,6 +2,8 @@
 
 Ethgate is a library for making batched calls to Ethereum compatible chains.
 
+API Reference: https://cardpunks.github.io/ethgate/
+
 This library is very experimental. Even documented features might not work.
 
 ## Usage
