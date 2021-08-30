@@ -6,7 +6,7 @@ API Reference: https://cardpunks.github.io/ethgate/
 
 This library is very experimental. Even documented features might not work.
 
-Used in production by [Cardpunks](https://cardpunks-eth.ipns.cf-ipfs.com/).
+Used in production by [Cardpunks](https://twitter.com/cardpunks).
 
 ## Usage
 
