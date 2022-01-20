@@ -10,7 +10,8 @@
     "build:rimraf": "rimraf ./dist",
     "build:tsc": "tsc",
     "build:docs": "run-s gen-docs",
-    "gen-docs": "typedoc"
+    "gen-docs": "typedoc",
+    "test": "exit 0"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.4.1",
